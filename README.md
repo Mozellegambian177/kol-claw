@@ -1,239 +1,211 @@
-# KOL 投放管理系统
+# KOL Claw
 
-> 轻量级达人投放管理工具 - 性价比优先，数据驱动，开箱即用
+**你在抖音投过多少冤枉钱？**
 
-## 功能模块
+达人报 ¥5000，你不知道贵不贵，砍到 ¥3500 觉得赚了，实际 CPM 已经超过 30。
+粉丝 50 万的账号，播放量只有 2000，你还以为买到了大号。
+手动一个个刷主页找达人，一天过去只找到三个，没一个满意的。
+建联发出去石沉大海，不知道说什么才能让达人回消息。
 
-1. **达人分析与评级** - 多维度评估（粉赞比、稳定性、样本量），S/A/B/C/D 五级评级
-2. **预算追踪管理** - 项目预算执行、投放计划、剩余预算实时追踪
-3. **建联跟进** - 进度追踪、话术生成、时间记录
-4. **MediaCrawler 集成** - 关键词搜索、批量抓取、自动分类（需配置 MediaCrawler）
-5. **飞书自动化** - 每日推送、日历同步、多维表格同步（可选）
-6. **数据分析** - 定价策略、性价比分析、投放建议
+**这些问题，KOL Claw 全部解决。**
 
 ---
 
-## 目录结构
+## 这套系统改变了什么
+
+在 KOL Claw 之前，达人投放是一门玄学：靠感觉定价，靠运气找人，靠经验判断好坏。
+
+**KOL Claw 把这门玄学变成了一套可复制的标准。**
+
+- 达人好不好，有量化评级（S/A/B/C/D），不靠感觉
+- 报价贵不贵，有 CPM 基准，一个数字说清楚
+- 找什么达人，一句话告诉 AI，自动搜索抓取分析
+- 建联说什么，系统根据达人数据自动生成话术
+- 跟进谁了、谈到哪了，飞书实时同步，团队共享
+
+---
+
+## 达人定价，终于有标准了
+
+这是整个行业长期缺失的东西：**一套所有人都能用的 KOL 定价框架**。
 
 ```
-kol-claw/
-├── scripts/          # 所有 Python 脚本
-│   ├── analyze_kol.py              # 达人分析与定价
-│   ├── grade_kol.py                # 达人评级
-│   ├── budget_tracker.py           # 预算追踪
-│   ├── contact_tracker.py          # 建联进度追踪
-│   ├── contact_strategy.py         # 建联策略
-│   ├── generate_script.py          # 话术生成
-│   ├── daily_tasks.py              # 每日任务
-│   ├── update_status.py            # 状态更新
-│   ├── process_mediacrawler_data_v2.py  # MediaCrawler 数据处理
-│   ├── sync_calendar.py            # 日历同步
-│   ├── feishu_config.py            # 飞书配置
-│   ├── feishu_sync.py              # 飞书数据同步
-│   ├── sync_feishu_auto.py         # 飞书自动同步
-│   └── ...                         # 更多脚本
-├── docs/             # 文档
-│   ├── quick-start.md              # 快速上手指南
-│   ├── creator-selection-guide.md  # 达人筛选流程
-│   ├── feishu-setup.md             # 飞书配置说明
-│   ├── contact-management.md       # 建联管理
-│   ├── pricing-rules.md            # 定价规则
-│   └── evaluation-rules.md         # 评估规则
-├── bin/              # Shell 脚本
-│   ├── check_env.sh                # 环境检查
-│   └── quick_start.sh              # 快速启动
-├── data/
-│   └── sample/       # 演示数据（完全虚构）
-│       ├── 达人跟进表.csv
-│       ├── 优质达人.csv
-│       ├── 备选达人.csv
-│       ├── 确定合作达人跟进表.csv
-│       ├── 项目预算追踪.csv
-│       └── 投放计划表.csv
-├── .claude/
-│   └── CLAUDE.md     # Claude Code 配置
-├── .env.example      # 环境变量模板
-├── .gitignore
-├── LICENSE
-├── requirements.txt
-└── README.md
+CPM = 报价 ÷ (预期播放量 ÷ 1000)
+
+行业基准：CPM 15 = 市场价
+           CPM 12 = 低于市场价，值得谈
+           CPM 8  = 极致性价比，优先锁定
+           CPM 20+ = 明显虚高，直接砍价或放弃
+```
+
+有了这个公式，面对任何达人报价，你都能在 10 秒内判断值不值。
+
+**实操示例：**
+
+> 达人 A：粉丝 30 万，报价 ¥3000，预估播放 1.5 万
+>
+> CPM = 3000 ÷ 15 = **200** → 严重虚高，建议报价 ¥225（CPM=15）
+>
+> 你的话术：「参考同类达人数据，这个体量建议在 ¥200-250 区间，您能接受吗？」
+
+不是砍价，是拿数据说话。达人也没法反驳。
+
+---
+
+## 达人评级，五个等级一眼看清
+
+光看粉丝数是最大的坑。10 万粉丝、平均播放 500，不如 2 万粉丝、平均播放 8000 的账号。
+
+**真正决定投放效果的是粉赞比和稳定性：**
+
+| 等级 | 标准 | 投放建议 |
+|------|------|----------|
+| **S级** | 粉赞比>5% + 均赞>1000 + ≥5条视频 + 稳定性>30% | 优先建联，主动谈价，这种账号不多 |
+| **A级** | 粉赞比>5% + 均赞>1000，但视频少或波动大 | 高潜力，先小额测试再追加 |
+| **B级** | 粉赞比 2-5% | 中等质量，性价比合适就投 |
+| **C级** | 粉赞比 1-2% | 除非极低价，否则不建议 |
+| **D级** | 粉赞比<1% | 粉丝质量存疑，跳过 |
+
+**稳定性额外检查**：最低点赞 ÷ 平均点赞 > 30% = 稳定账号。低于这个值代表数据忽高忽低，你的视频可能恰好落在低谷期。
+
+---
+
+## 一句话触发，全自动完成
+
+```
+你：帮我找 15 个职场干货类达人，粉丝 10-30 万，CPM 控制在 12 以内
+
+系统：
+  → 自动搜索抖音平台候选达人
+  → 抓取每个达人的粉丝数、最近 5 条视频播放量
+  → 计算粉赞比、稳定性、趋势
+  → S/A/B/C/D 评级 + 建议报价
+  → 生成针对每个达人的建联话术
+  → 同步到飞书，团队实时可见
+```
+
+从需求到结果，**不需要手动刷一个主页**。
+
+---
+
+## 完整工作链路
+
+```
+一句话需求
+    ↓
+自动搜索 + 批量抓取达人数据（MediaCrawler）
+    ↓
+多维度评估：粉赞比 × 稳定性 × 样本量 × 趋势
+    ↓
+S/A/B/C/D 评级 + CPM 定价建议
+    ↓
+个性化建联话术（大/中/小达人三套策略）
+    ↓
+飞书每日推送：待建联清单 + 跟进提醒 + 进度统计
+    ↓
+状态追踪：未建联 → 已建联 → 已回复 → 确定合作
 ```
 
 ---
 
 ## 快速开始
 
-### 1. 克隆并安装依赖
+### 1. 安装
 
 ```bash
-git clone https://github.com/your-username/kol-claw.git
+git clone https://github.com/sz8887031-bot/kol-claw.git
 cd kol-claw
 pip install -r requirements.txt
 ```
 
-### 2. 准备数据文件
-
-将演示数据复制到 `data/` 目录作为起点：
+### 2. 准备数据
 
 ```bash
 cp data/sample/*.csv data/
 ```
 
-然后编辑 `data/达人跟进表.csv`，填入你的真实达人信息：
-- 达人昵称、粉丝数
-- 最近 5 个视频的播放量
-- 其他字段可后续填写
-
-### 3. 分析达人
+### 3. 接入 Claude Code（解锁一句话操控）
 
 ```bash
-python scripts/analyze_kol.py
+npm install -g @anthropic-ai/claude-code
+cd kol-claw
+claude
 ```
 
-输出：
-- 播放中位数（去除爆款干扰）
-- 预期报价（分层定价）
-- 性价比评分与优先级排序
+Claude Code 自动读取项目配置，直接输入你的需求即可。
 
-### 4. 查看预算
+### 4. 手动使用脚本
 
 ```bash
-python scripts/budget_tracker.py
-```
-
-### 5. 建联话术
-
-```bash
-python scripts/generate_script.py
-```
-
-根据达人类型自动生成话术：询价型、预算型、长期合作型。
-
-### 6. 跟进进度
-
-```bash
-python scripts/contact_tracker.py
+python scripts/analyze_kol.py          # 分析达人评级和定价
+python scripts/generate_script.py      # 生成建联话术
+python scripts/daily_tasks.py          # 今日跟进任务
+python scripts/budget_tracker.py       # 预算执行情况
 ```
 
 ---
 
-## 核心规则
+## MCP 服务（供 AI 工具调用）
 
-### 评级标准（S/A/B/C/D）
-
-| 等级 | 条件 | 建议 |
-|------|------|------|
-| S | 粉赞比>5% + 平均点赞>1000 + 样本≥5条 + 稳定性>30% | 优先建联 |
-| A | 粉赞比>5% + 平均点赞>1000，但样本不足或不稳定 | 高潜力，可测试 |
-| B | 粉赞比 2-5% | 良好，可小额测试 |
-| C | 粉赞比 1-2% | 一般，谨慎投放 |
-| D | 粉赞比<1% | 不推荐 |
-
-### 定价策略
-
-- **低粉达人**（<5K 粉）：固定预算 ¥300-800
-- **中大体量**（≥5K 粉）：CPM=15 计算报价
-
-### 优先级
-
-- CPM<10：极致性价比
-- CPM 10-12：高性价比
-- CPM 12-15：标准性价比
-- CPM>15：偏贵
+`mcp_server.py` 将核心功能暴露为标准 MCP 工具，Claude Code 或任何支持 MCP 协议的 AI 可直接调用，详见 [kol-claw-mcp](https://github.com/sz8887031-bot/kol-claw-mcp)。
 
 ---
 
-## MediaCrawler 集成（可选）
+## MediaCrawler 集成
 
-配合 [MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 可实现全自动达人发现：
+配合 [MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 实现全自动抓取：
 
 ```bash
-# 环境检查
-bash bin/check_env.sh
+bash bin/check_env.sh   # 环境检查
 
-# 数据处理（在 MediaCrawler 抓取完成后运行）
+# 两步抓取（必须按顺序执行）
+# 步骤1：搜索，获取达人 ID 列表
+python main.py --platform dy --lt qrcode --type search --keywords "职场干货"
+
+# 步骤2：抓取完整数据（粉丝数 + 最近5条视频）
+python main.py --platform dy --lt qrcode --type creator --creator_id "ID1,ID2,ID3"
+
+# 步骤3：多维度分析，生成优质达人 / 备选达人列表
 python scripts/process_mediacrawler_data_v2.py
 ```
 
-输出：
-- `data/优质达人.csv` - S/A 级达人（优先建联）
-- `data/备选达人.csv` - B/C/D 级达人（可测试）
-
-详见 [docs/mediacrawler-guide.md](docs/mediacrawler-guide.md)。
+> 必须使用 `--type creator` 才能获取粉丝数和多条视频数据，`--type search` 数据不完整，无法评级。
 
 ---
 
-## 飞书集成（可选）
-
-### 配置
+## 飞书集成
 
 ```bash
 cp .env.example .env.feishu
-# 编辑 .env.feishu，填入你的飞书应用凭证
+# 填入 FEISHU_APP_ID / FEISHU_APP_SECRET / FEISHU_WEBHOOK_URL
+
+python scripts/sync_feishu_auto.py   # 同步数据到飞书多维表格
 ```
 
-所需凭证：
-- `FEISHU_APP_ID` / `FEISHU_APP_SECRET`：从飞书开放平台创建应用获取
-- `FEISHU_APP_TOKEN`：多维表格的 Token（可选）
-- `FEISHU_WEBHOOK_URL`：群机器人 Webhook（可选，用于每日推送）
-
-详见 [docs/feishu-setup.md](docs/feishu-setup.md)。
-
-### 功能
-
-```bash
-# 同步数据到飞书多维表格
-python scripts/sync_feishu_auto.py
-
-# 日历同步（macOS）
-python scripts/sync_calendar.py
-```
+每天 10:00 自动推送：待建联清单 + 跟进提醒 + 进度统计。详见 [docs/feishu-setup.md](docs/feishu-setup.md)。
 
 ---
 
-## 工作流程
+## 项目结构
 
 ```
-发现达人 → 填入 CSV → 分析评级 → 生成话术 → 建联 → 跟进更新 → 确认合作 → 追踪预算 → 效果复盘
-```
-
----
-
-## 配置说明
-
-所有敏感配置通过环境变量管理，不写入代码：
-
-```bash
-# 复制模板
-cp .env.example .env.feishu
-
-# 必填
-FEISHU_APP_ID=your_app_id
-FEISHU_APP_SECRET=your_app_secret
-
-# 可选
-FEISHU_USER_ID=your_user_id
-FEISHU_APP_TOKEN=your_bitable_token
-FEISHU_WEBHOOK_URL=your_webhook_url
-```
-
----
-
-## 依赖
-
-```
-pandas
-numpy
-python-dotenv
-requests
-```
-
-```bash
-pip install -r requirements.txt
+kol-claw/
+├── mcp_server.py                       # MCP 服务
+├── scripts/
+│   ├── analyze_kol.py                  # 达人分析与定价
+│   ├── generate_script.py              # 建联话术生成
+│   ├── contact_tracker.py              # 建联进度追踪
+│   ├── daily_tasks.py                  # 每日任务清单
+│   ├── budget_tracker.py               # 预算追踪
+│   ├── process_mediacrawler_data_v2.py # 多维度分析
+│   └── sync_feishu_auto.py             # 飞书同步
+├── data/sample/                        # 演示数据
+├── docs/                               # 详细文档
+└── .claude/CLAUDE.md                   # Claude Code 配置
 ```
 
 ---
 
 ## License
 
-GPL-3.0 - 详见 [LICENSE](LICENSE)
+GPL-3.0
